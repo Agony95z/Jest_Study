@@ -1,12 +1,11 @@
 <template>
   <section class="todoapp">
-    <TodoHeader />
+    <TodoHeader @new-todo="handleNewTodo" />
     <section class="main">
       <input id="toggle-all" class="toggle-all" type="checkbox" />
       <label for="toggle-all">Mark all as complete</label>
       <ul class="todo-list">
-        <TodoItem />
-        <TodoItem />
+        <TodoItem v-for="todo in todos" :key="todo.id" :todo="todo" />
       </ul>
     </section>
     <TodoFooter />
@@ -23,6 +22,21 @@ export default {
     TodoHeader,
     TodoFooter,
     TodoItem,
+  },
+  data () {
+    return {
+      todos: []
+    }
+  },
+  methods: {
+    handleNewTodo (text) {
+      const lastTodo = this.todos[this.todos.length - 1];
+      this.todos.push({
+        id: lastTodo ? lastTodo.id + 1 : 1,
+        text,
+        done: false
+      });
+    }
   }
 }
 </script>
